@@ -1,0 +1,9 @@
+Zombie process là một process con kết thúc mà chưa được cha thu dọn
+    Tiến trình cha cần đọc (reap) exit status thông qua một trong các hàm wait() hoặc waitpid(). Kernel chỉ giải phóng hẳn entry của tiến trình con sau khi cha gọi wait để nhận exit code. Điều này giúp:
+    Cha có thể biết con đã kết thúc thế nào (bình thường, lỗi, bị tín hiệu,…).
+    Tránh mất thông tin quan trọng về quá trình kết thúc (debug, ghi log,…).
+
+Orphan là một prcess là cha đã kết thúc, nhưng con thì chưa, do đó con sẽ được chuyển sang một tiến trình cao hơn chăm sóc là init
+    Đảm bảo tiếp tục chạy: Nếu không reparent, con sẽ không có nơi để báo cáo lúc kết thúc.
+    Quản lý tài nguyên: Init (hoặc bộ quản lý con) sẽ chịu trách nhiệm gọi wait cho những orphan, thu gom thông tin exit status, tránh tạo zombie lâu dài.
+
