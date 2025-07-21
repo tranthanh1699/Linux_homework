@@ -1,0 +1,8 @@
+Tại sao cần phải sử dụng mutex?
+Phép tăng counter (++counter) thực chất gồm các bước: đọc giá trị hiện tại, tính toán, sau đó ghi lại. Nếu hai hay nhiều luồng cùng thực hiện đồng thời mà không đồng bộ, 
+rất dễ xảy ra race condition - các bước này bị xen kẽ lẫn nhau, dẫn đến mất cập nhật.
+pthread_mutex_t (mutex) đảm bảo rằng tại mỗi thời điểm chỉ có duy nhất một luồng được phép bước vào phần “critical section” (nơi thay đổi counter), 
+nhờ đó các cập nhật sẽ luôn thực thi nguyên tử.
+
+Nếu bỏ qua mutex thì sẽ xảy ra giá trị counter không chính xác. Ví dụ, nếu hai luồng đọc giá trị counter là 5, sau đó cả hai đều tính toán giá trị mới là 6 và ghi lại,
+thì giá trị cuối cùng của counter sẽ là 6 thay vì 7. Điều này dẫn đến việc mất đồng bộ hóa và có thể gây ra các lỗi khó phát hiện trong chương trình.

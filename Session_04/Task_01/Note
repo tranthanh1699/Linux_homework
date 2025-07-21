@@ -1,0 +1,15 @@
+int pthread_create (pthread_t *__restrict __newthread,
+			   const pthread_attr_t *__restrict __attr,
+			   void *(*__start_routine) (void *),
+			   void *__restrict __arg) __THROWNL __nonnull ((1, 3));
+
+__newthread là con trỏ đến ID của luồng mới được tạo ra.
+__attr là con trỏ đến thuộc tính của luồng, có thể là NULL để sử dụng các giá trị mặc định.
+__start_routine là hàm sẽ được thực thi trong luồng mới.
+__arg là đối số được truyền vào hàm __start_routine, có thể là NULL nếu không cần truyền đối số.
+
+int pthread_join (pthread_t __th, void **__thread_return);
+__th là ID của luồng mà luồng hiện tại muốn chờ đợi.
+__thread_return là con trỏ đến biến sẽ lưu trữ giá trị trả về của luồng đã kết thúc, có thể là NULL nếu không cần lưu giá trị trả về.
+
+Một thread sẽ kết thúc khi mà hàm __start_routine trả về hoặc khi gọi pthread_exit.
